@@ -1,12 +1,12 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-var db_query = require('../db/mysql_connection');
-var MemberModel = require('../models/members');
-var memberTable = require('../db/tables/member');
-var jwt = require('../services/token');
+import db_query from '../db/mysql_connection');
+import MemberModel from '../models/members');
+import memberTable from '../db/tables/member');
+import jwt from '../services/token');
 
-var memberController = function() {
+const memberController = () => {
 	return {
 		getAllMembers: getAllMembers,
 		addMember: addMember,
@@ -17,33 +17,33 @@ var memberController = function() {
 	function getAllMembers(req, res) {
 		var query = "SELECT * FROM members";
 
-		db_query(query, function(results) {
-			if(results.success) {
+		db_query(query, function (results) {
+			if (results.success) {
 				var rows = [];
 				var result = results.success.result;
-				for(var row in result) {
+				for (var row in result) {
 					rows.push(result[row]);
 				};
 				res
 					.status(200)
-					.json({status: 200, message: 'SUCCESS!', members: rows});
+					.json({ status: 200, message: 'SUCCESS!', members: rows });
 			}
 		});
 	}
 
 
 	function addMember(req, res) {
-		if(!req.body) {
+		if (!req.body) {
 			res
 				.status(400)
-				.json({status: 400, message: 'No or wrong data received'});
+				.json({ status: 400, message: 'No or wrong data received' });
 		} else {
 			var data = req.body;
 			var member = new MemberModel(data);
-			if(member.length) {
+			if (member.length) {
 				res
 					.status(400)
-					.json({status: 400, message: 'Following member data required ---->>>>> ' + member});
+					.json({ status: 400, message: 'Following member data required ---->>>>> ' + member });
 			} else {
 				memberTable.registerMember(data, req, res);
 			}
@@ -58,7 +58,7 @@ var memberController = function() {
 
 		res.json({
 			token: jwt.getToken(),
-			member: {userId: res.locals.userId, email: body.email, permission:  res.locals.permission},
+			member: { userId: res.locals.userId, email: body.email, permission: res.locals.permission },
 			status: 200,
 			message: 'Logged-in Successfully!'
 		});
@@ -70,9 +70,9 @@ var memberController = function() {
 
 		res
 			.status(200)
-			.json({status: 200, message: 'Logged-out Successfully!'});
+			.json({ status: 200, message: 'Logged-out Successfully!' });
 	}
 
 }
 
-module.exports = memberController;
+export default memberController;

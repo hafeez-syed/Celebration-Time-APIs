@@ -1,0 +1,70 @@
+{
+	"defaultSeverity": "error",
+	"extends": ["tslint:recommended", "tslint-config-prettier"],
+	"jsRules": {
+		"no-console": false
+	},
+	"rules": {
+		"member-access": true,
+		"no-inferrable-types": false,
+		"no-var-requires": false,
+		"typedef": [
+			true,
+			"###call-signature",
+			"###parameter",
+			"###arrow-parameter",
+			"property-declaration",
+			"###variable-declaration",
+			"member-variable-declaration"
+		],
+		"typedef-whitespace": [
+			true,
+			{
+				"call-signature": "nospace",
+				"index-signature": "nospace",
+				"parameter": "nospace",
+				"property-declaration": "nospace",
+				"variable-declaration": "nospace"
+			},
+			{
+				"call-signature": "onespace",
+				"index-signature": "onespace",
+				"parameter": "onespace",
+				"property-declaration": "onespace",
+				"variable-declaration": "onespace"
+			}
+		],
+		"class-name": true,
+		"comment-format": [false, "check-space"],
+		"indent": [true, "tabs"],
+		"no-duplicate-variable": true,
+		"no-eval": true,
+		"no-internal-module": false,
+		"no-var-keyword": true,
+		"one-line": [
+			true,
+			"check-catch",
+			"check-else",
+			"check-open-brace",
+			"check-whitespace"
+		],
+		"quotemark": [false, "single", "avoid-escape"],
+		"no-console": false,
+		"semicolon": [true, "always"],
+		"eofline": true,
+		"triple-equals": [true, "allow-null-check"],
+		"whitespace": [
+			true,
+			"check-branch",
+			"check-decl",
+			"check-operator",
+			"check-separator",
+			"check-type"
+		],
+		"no-conditional-assignment": true,
+		"no-reference": true,
+		"variable-name": [true, "ban-keywords", "check-format"],
+		"one-variable-per-declaration": false
+	},
+	"rulesDirectory": []
+}

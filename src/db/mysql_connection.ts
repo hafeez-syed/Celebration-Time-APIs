@@ -1,9 +1,11 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-require('dotenv').config();
-const mysql = require('mysql'),
-	environment = process.env['DEFAULT_ENV'],
+import mysql from 'mysql';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const environment = process.env['DEFAULT_ENV'],
 	dbConfig = {
 		connectionLimit: 100,
 		host: environment ? process.env[`${environment}_SERVER`] : 'localhost',
@@ -15,7 +17,7 @@ const mysql = require('mysql'),
 
 mysql_connection_pool = mysql.createPool(dbConfig);
 
-function query_database(query, callback) {
+const query_database = (query, callback) => {
 	mysql_connection_pool.getConnection(function (error, connection) {
 		if (error) {
 			var data = {};
@@ -51,4 +53,4 @@ function query_database(query, callback) {
 	});
 }
 
-module.exports = query_database;
+export default query_database;
