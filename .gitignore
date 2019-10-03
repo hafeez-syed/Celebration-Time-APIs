@@ -1,0 +1,35 @@
+# directories
+###################
+node_modules/
+public/lib/
+build/
+
+# Settings
+###################
+*.lock
+.v=scode
+
+# compressed files
+###################
+*.rar
+*.zip
+
+# logs
+###################
+*.log
+*.sql
+*.sqlite
+*.mdf
+*.ldf
+
+# temp files
+###################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Environment related files
+###################
+services/token/auth-token
+.env
