@@ -1,16 +1,17 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-var db_query = require('../mysql_connection'),
-    shiftTable = [
-        'roster_id',
-        'shift_starttime',
-        'shift_endtime',
-        'shift_break_startime',
-        'shift_break_endtime',
-        'member_id',
-        'shift_position'
-    ],
+import { queryDatabase } from '../mysql-connection';
+
+const shiftTable = [
+    'roster_id',
+    'shift_starttime',
+    'shift_endtime',
+    'shift_break_startime',
+    'shift_break_endtime',
+    'member_id',
+    'shift_position'
+],
     requestAndResponse = {
         "rosterID": 1,
         "starttime": "",
@@ -23,17 +24,17 @@ var db_query = require('../mysql_connection'),
     table_name = 'shifts';
 
 function addShift(data, req, res) {
-    var query = '';
+    let query = '';
     query = "SELECT * FROM " + table_name + " WHERE member_email='" + data.email + "'";
-    
-    db_query(query, function (result) {
+
+    queryDatabase(query, function (result) {
         if (result.success) {
-            var rows = [];
-            var result = result.success.result;
-            for (var row in result) {
+            let rows = [];
+            let result = result.success.result;
+            for (let row in result) {
                 rows.push(result[row]);
             }
-            
+
             if (rows.length) {
                 res
                     .status(403)
@@ -42,7 +43,7 @@ function addShift(data, req, res) {
                         message: 'EMAIL ADDRESS EXIST! Try a different one.'
                     });
             } else {
-                proceedToAdd(function(result) {
+                proceedToAdd(function (result) {
                     res
                         .status(result.status)
                         .json(result);
@@ -51,10 +52,10 @@ function addShift(data, req, res) {
         } else {
             res
                 .status(result.error.code)
-                .json({status: result.error.code, message: 'DATABASE ERROR!', details: result.error});
+                .json({ status: result.error.code, message: 'DATABASE ERROR!', details: result.error });
         }
     });
-    
+
     function proceedToAdd(cb) {
         query = "INSERT INTO " + table_name;
         query += "(" + shiftTable + ")";
@@ -64,20 +65,20 @@ function addShift(data, req, res) {
         query += "'" + data.endtime + "', ";
         query += "'" + data.break_starttime + "', ";
         query += "'" + data.break_endtime + "', ";
-        query += data.memberID+ ", ";
+        query += data.memberID + ", ";
         query += "'" + data.position + "'";
         query += ")";
-        
-        db_query(query, function (result) {
-            var data = {};
+
+        queryDatabase(query, function (result) {
+            let data = {};
             if (result.error) {
-                data = {status: result.error.code, message: 'DATABASE ERROR!', details: result.error};
+                data = { status: result.error.code, message: 'DATABASE ERROR!', details: result.error };
             } else {
-                data = {status: 200, message: 'SUCCESS!'};
+                data = { status: 200, message: 'SUCCESS!' };
             }
             cb(data);
         });
     }
 }
 
-module.exports = addShift;
+export { addShift };

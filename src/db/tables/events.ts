@@ -1,8 +1,9 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-var db_query = require('../mysql_connection'),
-    moment = require('moment'),
+import { queryDatabase } from '../mysql-connection';
+
+const moment = require('moment'),
     eventTable = [
         'event_title',
         'customer_id',
@@ -31,8 +32,8 @@ var db_query = require('../mysql_connection'),
 
 function addEvent(data, req, res) {
 
-    if(req.params && req.params.customerId && data.customer_id && (req.params.customerId === data.customer_id)) {
-        var query = "INSERT INTO " + table_name;
+    if (req.params && req.params.customerId && data.customer_id && (req.params.customerId === data.customer_id)) {
+        let query = "INSERT INTO " + table_name;
         query += "(" + eventTable + ")";
         query += " VALUES (";
         query += "'" + data.title + "', ";
@@ -49,11 +50,11 @@ function addEvent(data, req, res) {
 
         db_query(query, function (result) {
             console.log(result);
-            var data = {};
+            let data = {};
             if (result.error) {
-                data = {status: result.error.code, message: 'DATABASE ERROR!', details: result.error};
+                data = { status: result.error.code, message: 'DATABASE ERROR!', details: result.error };
             } else {
-                data = {status: 200, message: 'CONGRATULATIONS!. Event successfully created.'};
+                data = { status: 200, message: 'CONGRATULATIONS!. Event successfully created.' };
             }
             res
                 .status(data.status)
@@ -62,64 +63,64 @@ function addEvent(data, req, res) {
     } else {
         res
             .status(400)
-            .json({status: 400, message: 'Customer ID required!'});
+            .json({ status: 400, message: 'Customer ID required!' });
     }
 }
 
 function viewEvents(req, res) {
-    if(req.params && req.params.customerId) {
-        var params = req.params,
+    if (req.params && req.params.customerId) {
+        let params = req.params,
             custId = params.customerId;
 
-        if(params.eventId) {
-            var eventId = params.eventId;
+        if (params.eventId) {
+            let eventId = params.eventId;
         }
 
 
-        var query = "SELECT * FROM events WHERE customer_id = " + custId;
+        let query = "SELECT * FROM events WHERE customer_id = " + custId;
         query = eventId ? query + " and event_id = " + eventId : query;
 
-        db_query(query, function(results) {
-            if(results.success) {
-                var result = results.success.result;
-                var momentFormat = 'LLLL';
-                if(result.length) {
-                    result.forEach(function(item) {
-                       item.event_starts = moment(item.event_starts).format(momentFormat);
-                       item.event_ends = moment(item.event_ends).format(momentFormat);
-                       item.event_rsvp = moment(item.event_rsvp).format(momentFormat);
-                       item.event_created = moment(item.event_created).format(momentFormat);
+        db_query(query, function (results) {
+            if (results.success) {
+                let result = results.success.result;
+                let momentFormat = 'LLLL';
+                if (result.length) {
+                    result.forEach(function (item) {
+                        item.event_starts = moment(item.event_starts).format(momentFormat);
+                        item.event_ends = moment(item.event_ends).format(momentFormat);
+                        item.event_rsvp = moment(item.event_rsvp).format(momentFormat);
+                        item.event_created = moment(item.event_created).format(momentFormat);
                     });
                     res
                         .status(200)
-                        .json({status: 200, message: 'SUCCESS!', events: result});
+                        .json({ status: 200, message: 'SUCCESS!', events: result });
                 } else {
                     res
                         .status(404)
-                        .json({status: 404, message: 'No record found.'});
+                        .json({ status: 404, message: 'No record found.' });
                 }
             } else {
                 res
                     .status(results.error.code)
-                    .json({status: results.error.code, message: 'DATABASE ERROR!', details: results.error});
+                    .json({ status: results.error.code, message: 'DATABASE ERROR!', details: results.error });
             }
         });
     } else {
         res
             .status(400)
-            .json({status: 400, message: 'Customer ID required!'});
+            .json({ status: 400, message: 'Customer ID required!' });
     }
 }
 
 function createDateString() {
-    var dt = new Date();
+    let dt = new Date();
 
-    var todaysDate = dt.getDate();
-    var month = parseInt(dt.getMonth() + 1, 10);
-    var year = dt.getFullYear();
-    var hours = dt.getHours();
-    var minutes = dt.getMinutes();
-    var seconds = dt.getSeconds();
+    let todaysDate = dt.getDate();
+    let month = parseInt(dt.getMonth() + 1, 10);
+    let year = dt.getFullYear();
+    let hours = dt.getHours();
+    let minutes = dt.getMinutes();
+    let seconds = dt.getSeconds();
 
     todaysDate = addOne(todaysDate);
     month = addOne(month);
@@ -133,10 +134,7 @@ function createDateString() {
 }
 
 function addOne(str) {
-    return str.length === 1 ? "0"+str : str;
+    return str.length === 1 ? "0" + str : str;
 }
 
-module.exports = {
-    addEvent: addEvent,
-    viewEvents: viewEvents
-};
+export { addEvent, viewEvents };

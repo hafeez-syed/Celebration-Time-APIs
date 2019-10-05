@@ -9,21 +9,21 @@ function Rosters(FIELDS) {
     this.recurring_period = FIELDS.recurring_period;
     
     
-    var errors = [];
+    let errors = [];
     
-    if(!this.name) {
+    if (!this.name) {
         errors.push("Roster name is required!");
     }
     
-    if(!this.start_date) {
+    if (!this.start_date) {
         errors.push("Start date is required!");
     }
 
-    if(!this.period_days) {
+    if (!this.period_days) {
         errors.push("Roster period is required!");
     }
 
-    if(!this.recurring_period) {
+    if (!this.recurring_period) {
         errors.push("Recuriing period is required!");
     }
     

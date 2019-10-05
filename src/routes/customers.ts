@@ -1,32 +1,32 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-var customerController = require('../controllers/customers')();
-var authenticate = require('../services/authenticate');
+import { getAllCustomers, loginCustomer, logoutCustomer, addCustomer, addEvent, viewEvent } from '../controllers/customer';
+import authenticate from '../services/authenticate';
 
 function customers(router) {
-	router.route('/api/customers')
-		.get(customerController.getAllCustomers);
+    router.route('/api/customers')
+        .get(getAllCustomers);
 
-	router.route('/api/customers/login')
-		.post(authenticate, customerController.loginCustomer);
-	
-	router.route('/api/customers/logout')
-		.post(customerController.logoutCustomer);
-	
-	router.route('/api/customers/register')
-		.post(customerController.addCustomer);
+    router.route('/api/customers/login')
+        .post(authenticate, loginCustomer);
 
-	router.route('/api/customers/:customerId/events')
-		.post(customerController.addEvent);
+    router.route('/api/customers/logout')
+        .post(logoutCustomer);
 
-	router.route('/api/customers/:customerId/events/')
-		.get(customerController.viewEvent);
+    router.route('/api/customers/register')
+        .post(addCustomer);
 
-	router.route('/api/customers/:customerId/events/:eventId')
-		.get(customerController.viewEvent);
+    router.route('/api/customers/:customerId/events')
+        .post(addEvent);
 
-	return router;
+    router.route('/api/customers/:customerId/events/')
+        .get(viewEvent);
+
+    router.route('/api/customers/:customerId/events/:eventId')
+        .get(viewEvent);
+
+    return router;
 }
 
-module.exports = customers;
+export default customers;

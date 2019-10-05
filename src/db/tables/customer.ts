@@ -1,50 +1,51 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-var db_query = require('../mysql_connection'),
-    customerTable = [
-        'customer_name',
-        'customer_email',
-        'customer_password',
-        'customer_image',
-        'customer_street_number',
-        'customer_street_name',
-        'customer_suburb',
-        'customer_postcode',
-        'customer_state',
-        'customer_country',
-        'customer_mobile',
-        'customer_phone',
-        'customer_gender',
-        'customer_dob'
-    ],
+import { queryDatabase } from '../mysql-connection';
+
+const customerTable = [
+    'customer_name',
+    'customer_email',
+    'customer_password',
+    'customer_image',
+    'customer_street_number',
+    'customer_street_name',
+    'customer_suburb',
+    'customer_postcode',
+    'customer_state',
+    'customer_country',
+    'customer_mobile',
+    'customer_phone',
+    'customer_gender',
+    'customer_dob'
+],
     requestAndResponse = {
-        "name": "Hafeez Syed",
+        "country": "Australia",
+        "dob": "",
         "email": "feeziman007@hotmail.com",
+        "gender": "male",
+        "image": "",
+        "mobile": "0430048332",
+        "name": "Hafeez Syed",
         "password": "sdfshdf98934534",
-        "street_number": 5,
-        "street_name": "Burchelli Way",
-        "suburb": "Wyndham Vale",
+        "phone": "0397497876",
         "postcode": 3024,
         "state": "VIC",
-        "country": "Australia",
-        "mobile": "0430048332",
-        "phone": "0397497876",
-        "gender": "male",
-        "dob": "",
-        "image": ""
+        "street_name": "Burchelli Way",
+        "street_number": 5,
+        "suburb": "Wyndham Vale",
     },
     table_name = 'customers';
 
 function registerCustomer(data, req, res) {
-    var query = '';
+    let query = '';
     query = "SELECT * FROM " + table_name + " WHERE customer_email='" + data.email + "'";
 
-    db_query(query, function (result) {
+    queryDatabase(query, function (result) {
         if (result.success) {
-            var rows = [];
-            var result = result.success.result;
-            for (var row in result) {
+            let rows = [];
+            let result = result.success.result;
+            for (let row in result) {
                 rows.push(result[row]);
             }
 
@@ -56,16 +57,16 @@ function registerCustomer(data, req, res) {
                         message: 'EMAIL ADDRESS EXIST! Try a different one.'
                     });
             } else {
-                proceedToRegister(function(result) {
+                proceedToRegister(function (result) {
                     res
-                     .status(result.status)
-                     .json(result);
+                        .status(result.status)
+                        .json(result);
                 });
             }
         } else {
             res
                 .status(result.error.code)
-                .json({status: result.error.code, message: 'DATABASE ERROR!', details: result.error});
+                .json({ status: result.error.code, message: 'DATABASE ERROR!', details: result.error });
         }
     });
 
@@ -89,12 +90,12 @@ function registerCustomer(data, req, res) {
         query += "'" + data.dob + "'";
         query += ")";
 
-        db_query(query, function (result) {
-            var data = {};
+        queryDatabase(query, function (result) {
+            let data = {};
             if (result.error) {
-                data = {status: result.error.code, message: 'DATABASE ERROR!', details: result.error};
+                data = { status: result.error.code, message: 'DATABASE ERROR!', details: result.error };
             } else {
-                data = {status: 200, message: 'SUCCESS!'};
+                data = { status: 200, message: 'SUCCESS!' };
             }
             cb(data);
         });
@@ -103,17 +104,17 @@ function registerCustomer(data, req, res) {
 
 function viewCustomerProfile(req, res) {
 
-    if(req.params && req.params.customerId) {
-        var custId = req.params.customerId;
+    if (req.params && req.params.customerId) {
+        let custId = req.params.customerId;
 
-        var query = "SELECT * FROM customers WHERE customer_id = " + custId;
+        let query = "SELECT * FROM customers WHERE customer_id = " + custId;
 
-        db_query(query, function(results) {
-            if(results.success) {
-                var result = results.success.result;
-                if(result.length) {
+        queryDatabase(query, function (results) {
+            if (results.success) {
+                let result = results.success.result;
+                if (result.length) {
                     result = result[0];
-                    var customerResult = {
+                    let customerResult = {
                         cId: result.customer_id,
                         cName: result.customer_name,
                         cEmail: result.customer_email,
@@ -133,28 +134,23 @@ function viewCustomerProfile(req, res) {
 
                     res
                         .status(200)
-                        .json({status: 200, message: 'SUCCESS!', customers: customerResult});
+                        .json({ status: 200, message: 'SUCCESS!', customers: customerResult });
                 } else {
                     res
                         .status(404)
-                        .json({status: 404, message: 'No record found.'});
+                        .json({ status: 404, message: 'No record found.' });
                 }
             } else {
                 res
                     .status(results.error.code)
-                    .json({status: results.error.code, message: 'DATABASE ERROR!', details: results.error});
+                    .json({ status: results.error.code, message: 'DATABASE ERROR!', details: results.error });
             }
         });
     } else {
         res
             .status(400)
-            .json({status: 400, message: 'Customer ID required!'});
+            .json({ status: 400, message: 'Customer ID required!' });
     }
 }
 
-
-
-module.exports = {
-    registerCustomer: registerCustomer,
-    viewCustomerProfile: viewCustomerProfile
-};
+export { registerCustomer, viewCustomerProfile };

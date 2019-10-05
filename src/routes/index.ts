@@ -3,14 +3,14 @@
  */
 
 function index(router) {
-	router.route('/')
-		.get(function(req, res) {
-			res
-				.status(200)
-				.send('Welcome to Celebration Time');
-		});
-	
-	return router
+    router.route('/')
+        .get(function (req, res) {
+            res
+                .status(200)
+                .send('Welcome to Celebration Time');
+        });
+
+    return router;
 }
 
-module.exports = index;
+export default index;

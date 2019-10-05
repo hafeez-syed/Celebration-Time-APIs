@@ -1,23 +1,23 @@
 /**
  * Created by Hafeez Syed on 5/10/2016.
  */
-import memberController from '../controllers/members';
+import { addMember, getAllMembers, loginMember, logoutMember } from '../controllers/member';
 import authenticate from '../services/authenticate';
 
 function customers(router) {
-	router.route('/api/members')
-		.get(memberController().getAllMembers)
+    router.route('/api/members')
+        .get(getAllMembers);
 
-	router.route('/api/members/login')
-		.post(authenticate, memberController().loginMember);
+    router.route('/api/members/login')
+        .post(authenticate, loginMember);
 
-	router.route('/api/members/logout')
-		.post(memberController().logoutMember);
+    router.route('/api/members/logout')
+        .post(logoutMember);
 
-	router.route('/api/members/register')
-		.post(memberController().addMember);
+    router.route('/api/members/register')
+        .post(addMember);
 
-	return router;
+    return router;
 }
 
-module.exports = customers;
+export { customers };
