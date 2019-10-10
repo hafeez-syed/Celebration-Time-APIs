@@ -5,12 +5,12 @@
     "lib": [
       "es6"
     ],
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "outDir": "build",
     "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
-    "esModuleInterop": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
