@@ -7,13 +7,13 @@ import MemberModel from '../models/member';
 import jwt from '../services/token';
 
 function getAllMembers(req, res) {
-    let query = "SELECT * FROM members";
+    const query = "SELECT * FROM members";
 
     queryDatabase(query, function (results) {
         if (results.success) {
-            let rows = [];
-            let result = results.success.result;
-            for (let row in result) {
+            const rows = [];
+            const result = results.success.result;
+            for (const row in result) {
                 rows.push(result[row]);
             }
             res
@@ -30,8 +30,8 @@ function addMember(req, res) {
             .status(400)
             .json({ status: 400, message: 'No or wrong data received' });
     } else {
-        let data = req.body;
-        let member = new MemberModel(data);
+        const data = req.body;
+        const member = new MemberModel(data);
         if (member.length) {
             res
                 .status(400)
@@ -45,7 +45,7 @@ function addMember(req, res) {
 
 
 function loginMember(req, res) {
-    let body = req.body;
+    const body = req.body;
     jwt.setToken(body.email);
 
     res.json({

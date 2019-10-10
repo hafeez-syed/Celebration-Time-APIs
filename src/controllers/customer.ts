@@ -14,13 +14,13 @@ function viewEvent(req, res) {
 }
 
 function getAllCustomers(req, res) {
-    let query = "SELECT * FROM customers";
+    const query = "SELECT * FROM customers";
 
     queryDatabase(query, function (results) {
         if (results.success) {
-            let rows = [];
-            let result = results.success.result;
-            for (let row in result) {
+            const rows = [];
+            const result = results.success.result;
+            for (const row in result) {
                 rows.push(result[row]);
             }
             res
@@ -37,8 +37,8 @@ function addCustomer(req, res) {
             .status(400)
             .json({ status: 400, message: 'No or wrong data received' });
     } else {
-        let data = req.body;
-        let customer = new CustomerModel(data);
+        const data = req.body;
+        const customer = new CustomerModel(data);
         if (customer.length) {
             res
                 .status(400)
@@ -52,7 +52,7 @@ function addCustomer(req, res) {
 
 
 function loginCustomer(req, res) {
-    let body = req.body;
+    const body = req.body;
     jwt.setToken(body.email);
 
     res.json({
@@ -79,8 +79,8 @@ function addEvent(req, res) {
             .status(400)
             .json({ status: 400, message: 'No or wrong data received' });
     } else {
-        let data = req.body;
-        let event = new EventModel(data);
+        const data = req.body;
+        const event = new EventModel(data);
 
         if (event.length) {
             res

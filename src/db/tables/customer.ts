@@ -43,9 +43,9 @@ function registerCustomer(data, req, res) {
 
     queryDatabase(query, function (result) {
         if (result.success) {
-            let rows = [];
-            let result = result.success.result;
-            for (let row in result) {
+            const rows = [];
+            const result = result.success.result;
+            for (const row in result) {
                 rows.push(result[row]);
             }
 
@@ -105,16 +105,16 @@ function registerCustomer(data, req, res) {
 function viewCustomerProfile(req, res) {
 
     if (req.params && req.params.customerId) {
-        let custId = req.params.customerId;
+        const custId = req.params.customerId;
 
-        let query = "SELECT * FROM customers WHERE customer_id = " + custId;
+        const query = "SELECT * FROM customers WHERE customer_id = " + custId;
 
         queryDatabase(query, function (results) {
             if (results.success) {
                 let result = results.success.result;
                 if (result.length) {
                     result = result[0];
-                    let customerResult = {
+                    const customerResult = {
                         cId: result.customer_id,
                         cName: result.customer_name,
                         cEmail: result.customer_email,

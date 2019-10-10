@@ -13,7 +13,7 @@ dotenv.config();
 const env = process.env;
 const environment = env.DEFAULT_ENV;
 const host: string = env[`${environment}_SERVER`] || 'localhost';
-const port: number = env[`${environment}_SERVER_PORT`] || 3000;
+const port: number = Number(env[`${environment}_SERVER_PORT`]) || 3000;
 const app = express();
 const router = express.Router();
 

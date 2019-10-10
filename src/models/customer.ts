@@ -18,7 +18,7 @@ function CustomerModel(FIELDS) {
     this.dob = FIELDS.dob;
     this.image = FIELDS.image;
 
-    let errors = [];
+    const errors = [];
 
     if (!this.name) {
         errors.push("Customer name required!");

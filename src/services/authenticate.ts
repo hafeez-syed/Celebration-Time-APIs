@@ -4,7 +4,7 @@
 import { queryDatabase } from '../db/mysql-connection';
 
 const authenticate = (req, res, next) => {
-    let body = req.body;
+    const body = req.body;
 
     if (!body.type) {
         intruder_detected();
@@ -15,7 +15,7 @@ const authenticate = (req, res, next) => {
                 .json({ status: 400, message: 'Must provide email and password' });
         } else {
             if (body.type === 'customers' || body.type === 'members') {
-                let db_table = body.type;
+                const db_table = body.type;
                 let query = '';
                 let uId = "";
 
@@ -29,9 +29,9 @@ const authenticate = (req, res, next) => {
 
                 queryDatabase(query, function (result) {
                     if (result.success) {
-                        let rows = [];
-                        let result = result.success.result;
-                        for (let row in result) {
+                        const rows = [];
+                        const result = result.success.result;
+                        for (const row in result) {
                             res.locals.userId = result[row][uId];
                             if (uId === 'member_id') {
                                 res.locals.permission = result[row].member_role === 2 ? 'full' : 'restricted';

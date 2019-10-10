@@ -9,7 +9,7 @@ function Rosters(FIELDS) {
     this.recurring_period = FIELDS.recurring_period;
     
     
-    let errors = [];
+    const errors = [];
     
     if (!this.name) {
         errors.push("Roster name is required!");

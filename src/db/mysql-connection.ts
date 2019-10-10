@@ -22,7 +22,7 @@ const mysqlConnectionPool = mysql.createPool(dbConfig);
 const queryDatabase = (query, callback) => {
     mysqlConnectionPool.getConnection(function (error, connection) {
         if (error) {
-            let data = {};
+            const data = {};
             data.error = error;
             data.message = "Error in connection database";
             data.code = 100;
@@ -33,8 +33,8 @@ const queryDatabase = (query, callback) => {
         connection.query(query, function (err, rows) {
             connection.release();
             if (!err) {
-                let data = {};
-                let success = {};
+                const data = {};
+                const success = {};
                 success.message = 'success';
                 success.result = rows;
                 data.success = success;
@@ -44,7 +44,7 @@ const queryDatabase = (query, callback) => {
 
         connection.on('error', function (err) {
             if (err) {
-                let data = {};
+                const data = {};
                 data.error = err;
                 data.message = "Error in connection database";
                 data.code = 100;

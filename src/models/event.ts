@@ -13,7 +13,7 @@ function EventModel(FIELDS) {
     this.lat = FIELDS.lat;
     this.longt = FIELDS.longt;
 
-    let errors = [];
+    const errors = [];
 
     if (!this.title) {
         errors.push("Event title is required!");

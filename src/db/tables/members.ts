@@ -49,9 +49,9 @@ function registerMember(data, req, res) {
 
     db_query(query, function (result) {
         if (result.success) {
-            let rows = [];
-            let result = result.success.result;
-            for (let row in result) {
+            const rows = [];
+            const result = result.success.result;
+            for (const row in result) {
                 rows.push(result[row]);
             }
 

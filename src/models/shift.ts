@@ -11,7 +11,7 @@ function Shifts(FIELDS) {
     this.member_id = FIELDS.member_id;
     this.position = FIELDS.position;
     
-    let errors = [];
+    const errors = [];
     
     if (!this.roster_id) {
         errors.push("Roster ID required!");

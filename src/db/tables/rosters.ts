@@ -23,9 +23,9 @@ function addRoster(data, req, res) {
 
     queryDatabase(query, function (result) {
         if (result.success) {
-            let rows = [];
-            let result = result.success.result;
-            for (let row in result) {
+            const rows = [];
+            const result = result.success.result;
+            for (const row in result) {
                 rows.push(result[row]);
             }
 

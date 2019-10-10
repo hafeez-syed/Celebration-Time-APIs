@@ -69,11 +69,11 @@ function addEvent(data, req, res) {
 
 function viewEvents(req, res) {
     if (req.params && req.params.customerId) {
-        let params = req.params,
+        const params = req.params,
             custId = params.customerId;
 
         if (params.eventId) {
-            let eventId = params.eventId;
+            const eventId = params.eventId;
         }
 
 
@@ -82,8 +82,8 @@ function viewEvents(req, res) {
 
         db_query(query, function (results) {
             if (results.success) {
-                let result = results.success.result;
-                let momentFormat = 'LLLL';
+                const result = results.success.result;
+                const momentFormat = 'LLLL';
                 if (result.length) {
                     result.forEach(function (item) {
                         item.event_starts = moment(item.event_starts).format(momentFormat);
@@ -113,7 +113,7 @@ function viewEvents(req, res) {
 }
 
 function createDateString() {
-    let dt = new Date();
+    const dt = new Date();
 
     let todaysDate = dt.getDate();
     let month = parseInt(dt.getMonth() + 1, 10);
